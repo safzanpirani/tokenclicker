@@ -81,7 +81,7 @@ export class App {
     private cb: AppCallbacks,
   ) {
     // Rarest readable tokens in the corpus become the "legendary" pool.
-    this.legendaryPool = stream.vocab.filter((t) => t.trim().length >= 3).slice(-60);
+    this.legendaryPool = stream.vocab.filter((t) => t.trim().length >= 3).slice(-100);
     this.build();
     this.seedStream();
     this.rebuildUpgrades();
