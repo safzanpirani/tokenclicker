@@ -41,7 +41,7 @@ export function freshState(): GameState {
     discovered: [],
     legendaries: [],
     buffs: [],
-    settings: { sound: false, theme: "light" },
+    settings: { sound: false, theme: "dark" },
     startedAt: now,
     lastSaved: now,
   };

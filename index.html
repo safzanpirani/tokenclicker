@@ -3,6 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script>
+      // Set the theme before first paint (dark by default) to avoid a flash.
+      try {
+        var s = localStorage.getItem("tokenclicker.save");
+        var theme = s ? (JSON.parse(s).settings || {}).theme : "dark";
+        if (theme !== "light") document.documentElement.classList.add("dark");
+      } catch (e) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
     <title>tokenclicker</title>
     <meta name="description" content="An idle game where the cookie is an LLM token." />
     <link rel="icon" type="image/png" href="/icons/t1-token.png" />
