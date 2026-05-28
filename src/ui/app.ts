@@ -71,6 +71,7 @@ export class App {
   private activeTab = "generators";
   private streamText = "";
   private ambientAcc = 0;
+  private chipAcc = 0;
   private lastUpgradeSig = "";
   private lastAchCount = -1;
 
@@ -339,17 +340,17 @@ export class App {
     this.streamScroll.scrollTop = this.streamScroll.scrollHeight;
   }
 
-  /** Advance the stream by one token and pop a readable chip at (x,y). */
-  private emitToken(x: number, y: number): void {
+  /** Advance the stream by one token; optionally pop a readable chip at (x,y). */
+  private emitToken(x: number, y: number, withChip = true): void {
     const leg = this.maybeLegendary();
     if (leg) {
-      this.emitLegendary(leg, x, y);
+      this.emitLegendary(leg, x, y); // legendaries always pop a chip
       return;
     }
     const tok = this.stream.next();
     this.appendStream(tok);
     this.game.discover(tok);
-    spawnChip(tok, x, y);
+    if (withChip) spawnChip(tok, x, y);
   }
 
   private maybeLegendary(): string | null {
@@ -395,22 +396,37 @@ export class App {
     }, 250);
   }
 
-  /** Called every frame: ambient stream flow scaled by Tk/s (cosmetic only). */
+  /** Called every frame. Text flows into the window at a rate that scales with
+   *  Tk/s (feels alive), while flying chips are throttled so each stays readable. */
   update(dt: number): void {
     this.updateNews(dt);
     const tps = this.game.tps();
-    let rate = tps > 0 ? 1.2 + Math.log10(tps + 1) * 0.9 : 0.5;
-    rate = Math.min(rate, 6);
-    this.ambientAcc += rate * dt;
-    let budget = 2; // cap chips per frame
+
+    // Stream text flow — scales with production, capped so it never blurs.
+    let streamRate = tps > 0 ? 4 + Math.log10(tps + 1) * 6 : 2;
+    streamRate = Math.min(streamRate, 45);
+    // Flying chips — kept sparse so the word on each is legible.
+    let chipRate = tps > 0 ? 1.5 + Math.log10(tps + 1) * 0.8 : 0.6;
+    chipRate = Math.min(chipRate, 6);
+
+    this.ambientAcc += streamRate * dt;
+    this.chipAcc += chipRate * dt;
+
+    let budget = 16; // tokens advanced per frame, max
     const wrap = this.streamWrap.getBoundingClientRect();
     while (this.ambientAcc >= 1 && budget-- > 0) {
       this.ambientAcc -= 1;
+      let withChip = false;
+      if (this.chipAcc >= 1) {
+        this.chipAcc -= 1;
+        withChip = true;
+      }
       const ox = wrap.left + 24 + Math.random() * Math.max(40, wrap.width - 48);
       const oy = wrap.bottom - 28 - Math.random() * 40;
-      this.emitToken(ox, oy);
+      this.emitToken(ox, oy, withChip);
     }
-    if (this.ambientAcc > 2) this.ambientAcc = 2;
+    if (this.ambientAcc > 4) this.ambientAcc = 4;
+    if (this.chipAcc > 3) this.chipAcc = 3;
   }
 
   // ---- render --------------------------------------------------------------
