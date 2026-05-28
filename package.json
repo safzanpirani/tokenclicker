@@ -1,0 +1,24 @@
+{
+  "name": "tokenclicker",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "pnpm run build:corpus && tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "build:corpus": "tsx scripts/build-corpus.ts"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "@types/node": "^22.10.0",
+    "gpt-tokenizer": "^2.9.0",
+    "tailwindcss": "^4.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
+  }
+}

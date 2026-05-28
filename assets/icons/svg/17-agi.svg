@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  
+    <defs>
+      <marker id="arrow-ink" markerWidth="28" markerHeight="28" refX="22" refY="14" orient="auto" markerUnits="userSpaceOnUse">
+        <path d="M7,6 L22,14 L7,22" fill="none" stroke="#141414" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+      <marker id="arrow-orange" markerWidth="28" markerHeight="28" refX="22" refY="14" orient="auto" markerUnits="userSpaceOnUse">
+        <path d="M7,6 L22,14 L7,22" fill="none" stroke="#F97316" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+    
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M238 136 C174 116 112 162 124 230 C80 258 96 338 160 348 C176 398 240 390 256 342" fill="none" stroke="#141414" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M208 154 C178 174 178 210 204 226" fill="none" stroke="#141414" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M150 234 C186 232 206 254 202 286" fill="none" stroke="#141414" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M174 340 C192 310 226 306 256 324" fill="none" stroke="#141414" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="256" y="150" width="122" height="212" rx="16" fill="none" stroke="#141414" stroke-width="20" stroke-linejoin="round" />
+<line x1="296" y1="190" x2="338" y2="190" stroke="#141414" stroke-width="20" stroke-linecap="round" />
+<line x1="296" y1="236" x2="338" y2="236" stroke="#141414" stroke-width="20" stroke-linecap="round" />
+<line x1="296" y1="282" x2="338" y2="282" stroke="#141414" stroke-width="20" stroke-linecap="round" />
+<circle cx="338" cy="190" r="8" fill="#F97316" stroke="#F97316" stroke-width="8" />
+<circle cx="296" cy="236" r="8" fill="#F97316" stroke="#F97316" stroke-width="8" />
+<circle cx="338" cy="282" r="8" fill="#F97316" stroke="#F97316" stroke-width="8" />
+<line x1="256" y1="180" x2="226" y2="180" stroke="#141414" stroke-width="20" stroke-linecap="round" />
+<line x1="256" y1="230" x2="226" y2="230" stroke="#141414" stroke-width="20" stroke-linecap="round" />
+<line x1="256" y1="280" x2="226" y2="280" stroke="#141414" stroke-width="20" stroke-linecap="round" />
+<line x1="256" y1="330" x2="226" y2="330" stroke="#141414" stroke-width="20" stroke-linecap="round" />
+<line x1="256" y1="112" x2="256" y2="82" stroke="#F97316" stroke-width="14" stroke-linecap="round" />
+<line x1="342" y1="126" x2="364" y2="104" stroke="#F97316" stroke-width="14" stroke-linecap="round" />
+<line x1="398" y1="214" x2="430" y2="214" stroke="#F97316" stroke-width="14" stroke-linecap="round" />
+<line x1="342" y1="386" x2="364" y2="408" stroke="#F97316" stroke-width="14" stroke-linecap="round" />
+  </g>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  
+    <defs>
+      <marker id="arrow-ink" markerWidth="28" markerHeight="28" refX="22" refY="14" orient="auto" markerUnits="userSpaceOnUse">
+        <path d="M7,6 L22,14 L7,22" fill="none" stroke="#141414" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+      <marker id="arrow-orange" markerWidth="28" markerHeight="28" refX="22" refY="14" orient="auto" markerUnits="userSpaceOnUse">
+        <path d="M7,6 L22,14 L7,22" fill="none" stroke="#F97316" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+    
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="160" cy="208" r="44" fill="none" stroke="#141414" stroke-width="20" />
+<circle cx="304" cy="154" r="44" fill="none" stroke="#141414" stroke-width="20" />
+<circle cx="356" cy="312" r="44" fill="none" stroke="#141414" stroke-width="20" />
+<circle cx="178" cy="344" r="44" fill="none" stroke="#141414" stroke-width="20" />
+<path d="M203 195 C236 178 250 170 260 166" fill="none" stroke="#141414" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)"/>
+<path d="M319 198 C334 236 342 258 348 270" fill="none" stroke="#F97316" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-orange)"/>
+<path d="M312 326 C268 340 244 345 222 346" fill="none" stroke="#141414" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)"/>
+<path d="M152 300 C142 270 142 252 148 230" fill="none" stroke="#141414" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)"/>
+<path d="M284 120 C250 74 336 54 344 112" fill="none" stroke="#141414" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)"/>
+  </g>
+</svg>

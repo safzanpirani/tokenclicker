@@ -1,0 +1,97 @@
+the model learns to predict the next token given the prior context, and with every step the loss creeps a little lower and the weights settle into something that looks almost like understanding.
+
+attention is all you need, they said, and it turned out they were mostly right. each head looks back across the sequence, decides what matters, and quietly routes information forward through the residual stream.
+
+training begins at step zero with random weights and a flat, hopeless loss. by the end of the first epoch the model already knows that a comma usually follows a clause and that the word the is never very far away.
+
+we scaled the model and the loss fell on a clean power law, just as the scaling laws promised. more parameters, more tokens, more compute, and the curve bent downward like it had somewhere to be.
+
+a token is a fragment of meaning, sometimes a whole word, sometimes a single space, sometimes three letters that only mean something once the next token arrives.
+
+the gradient flows backward through the network, nudging every parameter a hair in the direction that would have made the last prediction a little less wrong.
+
+inside the transformer the embeddings drift through layer after layer, each block refining the representation, until the final hidden state is ready to vote on what comes next.
+
+the dataset was the whole messy internet, deduplicated and filtered and shuffled, and the model swallowed it one batch at a time without ever asking what any of it meant.
+
+we trained on a trillion tokens and the model began to generalize, stitching together patterns it had never seen in exactly that order before, which is either intelligence or a very convincing imitation of it.
+
+the optimizer takes a step, the learning rate decays on its cosine schedule, and somewhere in the high dimensional dark the parameters slide toward a basin that generalizes.
+
+sampling is just rolling weighted dice over the vocabulary. temperature decides how surprised you are allowed to be by the next token.
+
+the context window is finite, so the model forgets the beginning of the conversation the moment it scrolls past the edge, like a mind with a fixed and unforgiving horizon.
+
+pretraining teaches the model the shape of language, and fine tuning teaches it manners. one is a flood of raw text, the other a careful and patient correction.
+
+every forward pass is a small act of prediction, a probability distribution spread thin across fifty thousand possible tokens, collapsing into one the instant we sample.
+
+the embedding layer maps each token to a vector, and in that space king minus man plus woman lands suspiciously close to queen, which still feels like a magic trick.
+
+we watched the validation loss plateau and then, three thousand steps later, drop again, as if the model had been quietly thinking the whole time.
+
+backpropagation is the engine of the whole enterprise: compute the error, send it backward, and let the chain rule apportion blame across a billion tiny knobs.
+
+the tokenizer splits the text into subwords using byte pair encoding, merging the most frequent pairs until the vocabulary is full and every string has a path.
+
+a larger model is not just a smarter model, it is a hungrier one, demanding more memory, more bandwidth, and more patience from everyone waiting on the run.
+
+the residual connection lets the signal skip ahead, so the gradient has a clear road home and the deep network does not strangle itself in its own depth.
+
+generation is autoregressive: predict a token, append it, feed the whole thing back in, and predict again, building the sentence one careful guess at a time.
+
+the model does not know it is a model. it only knows that after this token, statistically, that token tends to follow, and it has gotten very good at knowing.
+
+softmax turns a vector of raw logits into a tidy distribution that sums to one, so the largest score becomes the most likely token and the rest fade politely into the background.
+
+we checkpoint the weights every thousand steps, because a power cut at hour forty of a training run is the kind of grief no one should learn twice.
+
+the attention matrix is a map of who is listening to whom, and when you visualize it you can almost see the sentence holding itself together.
+
+scaling laws say the loss is a smooth function of size, and that smoothness is unsettling, because it means intelligence might be something you can simply buy more of.
+
+the warmup phase eases the learning rate up from nothing, because a model with fresh random weights is fragile and a single large step can shatter the run.
+
+each layer normalizes its inputs before the attention fires, keeping the activations from exploding or vanishing as they march through the stack.
+
+the model hallucinates with perfect confidence, inventing a citation, a date, a name, all rendered in the same calm and fluent voice it uses for the truth.
+
+a parameter is a single number, one weight among billions, and on its own it means nothing, but together they hum with everything the model has ever read.
+
+we distilled the large model into a small one, teaching the student to mimic the teacher, trading a little accuracy for a model that fits on a phone.
+
+the loss is cross entropy, the distance between what the model believed and what actually came next, measured in bits of surprise.
+
+inference is cheap compared to training, a single forward pass against weeks of gradient descent, the long apprenticeship paid off in milliseconds.
+
+the model was trained to predict text and somewhere along the way it learned arithmetic, translation, and a passable imitation of reasoning, none of which anyone asked for directly.
+
+positional encodings tell the model where each token sits, because attention by itself is blind to order and would happily read the sentence backward.
+
+the batch moves through the gpu, the matrices multiply, the activations bloom and collapse, and a number called the loss falls out the other end.
+
+we froze the lower layers and only fine tuned the top, because the early features were already good and there was no sense disturbing what already worked.
+
+a mixture of experts routes each token to a handful of specialists, so the model can be enormous in total yet cheap to run for any single prediction.
+
+the model generates one token, then the next, and the meaning accumulates the way a melody does, no single note carrying it, the sequence carrying everything.
+
+we measured perplexity on the held out set and it dropped below twenty, which meant the model was rarely more than a few good guesses away from the truth.
+
+quantization squeezes the weights down to four bits, and somehow the model barely notices, still fluent, still confident, now small enough to run almost anywhere.
+
+the prompt is a seed, and the model unrolls from it, each token conditioned on every token before, the future written one sample at a time.
+
+deep in the network there are neurons that fire only for the word the, or for the end of a quote, or for something no one has yet found a name for.
+
+reinforcement learning from human feedback shapes the model toward what people prefer, reward model in the loop, the policy slowly bending toward helpfulness.
+
+the embedding space is high dimensional and mostly empty, meaning clustered into thin manifolds, and the model spends its life navigating that quiet geometry.
+
+we ran the eval suite overnight and woke to a model that could code, summarize, and argue, each capability emerging from the same flat objective of predicting the next token.
+
+a single epoch over the data was enough; a second pass risked memorization, the model reciting the training set instead of learning the language behind it.
+
+the transformer has no recurrence and no convolution, only attention and a stack of feedforward layers, and that austere design turned out to scale better than anything before it.
+
+the tokens stream out faster than you can read them, the model thinking out loud in real time, each fragment a small bet on the shape of the rest of the sentence.

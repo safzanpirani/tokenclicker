@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: hsl(0 0% 98%);
+  --color-foreground: hsl(0 0% 8%);
+  --color-card: hsl(0 0% 96%);
+  --color-card-foreground: hsl(0 0% 8%);
+  --color-muted: hsl(0 0% 92%);
+  --color-muted-foreground: hsl(0 0% 45%);
+  --color-accent: hsl(24 95% 53%);
+  --color-accent-foreground: hsl(0 0% 98%);
+  --color-border: hsl(0 0% 88%);
+  --color-success: hsl(160 84% 32%);
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Google Sans Code", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius: 0.25rem;
+}
+
+/* Dark theme token overrides (light is default, matching safzan.dev). */
+.dark {
+  --color-background: hsl(0 0% 4%);
+  --color-foreground: hsl(0 0% 92%);
+  --color-card: hsl(0 0% 7%);
+  --color-card-foreground: hsl(0 0% 92%);
+  --color-muted: hsl(0 0% 12%);
+  --color-muted-foreground: hsl(0 0% 55%);
+  --color-accent: hsl(24 95% 53%);
+  --color-border: hsl(0 0% 15%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
+}
+
+/* ---- Reusable terminal-flavored bits (matching safzan.dev) ---- */
+.mono {
+  font-family: var(--font-mono);
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.prompt::before {
+  content: "\2192 ";
+  color: var(--color-accent);
+}
+
+.cursor::after {
+  content: "\258B";
+  margin-left: 1px;
+  color: var(--color-accent);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+/* Icons are theme-aware (charcoal in light, light-ink in dark) so they sit
+   directly on the card surface — no backing tile needed. */
+.icon-tile {
+  border-radius: var(--radius);
+  padding: 3px;
+  object-fit: contain;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Newest streamed token flashes in for a live "generating" feel. */
+.tok-new {
+  animation: tokin 0.55s ease-out;
+}
+@keyframes tokin {
+  from {
+    color: var(--color-accent);
+  }
+  to {
+    color: inherit;
+  }
+}
+
+/* ---- Flying token chip ---- */
+.chip {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--radius);
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+  white-space: pre;
+  will-change: transform, opacity;
+}
+
+.chip-legendary {
+  background: linear-gradient(100deg, #f59e0b, #f97316, #fb923c, #f59e0b);
+  background-size: 200% 100%;
+  color: #1a1207;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 0 18px color-mix(in srgb, #f97316 75%, transparent);
+  animation: shimmer 1.2s linear infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.dex-legend {
+  background: linear-gradient(100deg, #f59e0b, #f97316, #fb923c);
+  color: #1a1207;
+  font-weight: 700;
+}
+
+/* ---- Generate ripple on the stream ---- */
+.gen-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--fx) var(--fy),
+    color-mix(in srgb, var(--color-accent) 22%, transparent),
+    transparent 45%
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+.gen-flash.go {
+  animation: flash 320ms ease-out;
+}
+@keyframes flash {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ---- Golden token ---- */
+.golden {
+  position: fixed;
+  z-index: 60;
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-accent) 60%, transparent));
+  animation: bob 2.2s ease-in-out infinite;
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(4deg);
+  }
+}
+
+.focusable:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .golden,
+  .cursor::after,
+  .gen-flash.go,
+  .tok-new {
+    animation: none !important;
+  }
+}
