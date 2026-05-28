@@ -5,8 +5,8 @@ click and every generator emits a *real* LLM token — a word or subword fragmen
 that flies as a chip into a live "context window" stream that reads like a model
 generating text. Hosted (planned) at **token.safzan.dev**.
 
-Status: greenfield (design locked via a grilling session 2026-05-28; build not yet
-started).
+Status: built and playable (core loop, prestige, goldens, achievements, dex,
+save/import, theme-aware icons). Iterating on polish + throughput visualization.
 
 ---
 
@@ -89,6 +89,38 @@ tokens clicked…). Each grants a tiny permanent bonus.
 ### Offline / idle progress
 Earn a reduced share (~50%) of Tk/s while away, capped (~3h), with a
 "while you were away…" welcome-back popup.
+
+---
+
+## Throughput visualization (conveying high Tk/s)
+
+The readable stream + flying chips stay deliberately slow so each token is
+legible — but that means they can't represent the real production rate (e.g.
+4.5k Tk/s). These are the ways to *visually* convey magnitude beyond what
+legible text can. The stream rate is decoupled from the currency rate: text
+flow ≈ `4 + log10(tps+1)·6` (cap 45/s), chips ≈ `1.5 + log10(tps+1)·0.8` (cap
+6/s). A single `intensity` 0..1 = `clamp((log10(tps+1) − 1) / 4, 0, 1)` drives
+the ambient layers.
+
+- **Background token firehose** *(implemented — `src/ui/firehose.ts`)*. A faint
+  canvas behind the readable stream: fast-scrolling token fragments whose
+  density, scroll-speed, opacity and a card border/inner-glow all ramp with
+  `intensity`. Reads as a blur of generation "underneath" the legible chips.
+  Respects `prefers-reduced-motion` (freezes, fewer rows). A small corner
+  `N Tk/s` label fades in once intensity is high.
+- **Parallel context windows.** Past a threshold, spawn additional miniature
+  stream panes ("×N parallel"), each scrolling its own text — visualizes batched
+  / multi-replica inference. Count scales with tier of throughput.
+- **Throughput gauge + sparkline.** A dedicated Tk/s readout with a needle/bar
+  that pegs toward "max", plus a rolling sparkline of recent rate — a literal
+  instrument rather than implied motion.
+- **Batch counter.** An explicit "×N tokens/batch" multiplier badge near the
+  stream that grows with rate, framing chips as samples of a much larger batch.
+- **Chip burst intensity.** Instead of more chips, occasional *bursts* (a small
+  fan of chips on one emit) whose size scales with rate — keeps individual chips
+  rare/readable while signaling volume.
+- **Token rain.** Vertical falling-token columns (Matrix-style) layered behind
+  the stream as an alternative/secondary ambient to the horizontal firehose.
 
 ---
 

@@ -4,6 +4,7 @@ import { GENERATORS, UPGRADES, ACHIEVEMENTS, NEWS } from "../game/data";
 import { fmt, fmtInt, fmtTime } from "../game/format";
 import { spawnChip, showToast } from "./fx";
 import { playClick, playGolden } from "./sound";
+import { Firehose } from "./firehose";
 
 export interface AppCallbacks {
   onSave(): void;
@@ -65,6 +66,8 @@ export class App {
   private lastNewsText = "";
 
   private dexCountEl!: HTMLElement;
+  private streamRateEl!: HTMLElement;
+  private firehose!: Firehose;
   readonly legendaryPool: string[];
 
   private buyAmount: BuyAmount = 1;
@@ -133,14 +136,15 @@ export class App {
             </div>
 
             <div id="stream" class="relative flex-1 min-h-[180px] card overflow-hidden cursor-pointer select-none focusable" role="button" tabindex="0" aria-label="Generate a token">
-              <div class="absolute top-2 left-3 section-label pointer-events-none">context window</div>
-              <div id="stream-scroll" class="absolute left-0 right-0 top-8 bottom-0 px-3 sm:px-4 pb-10 overflow-hidden">
+              <div class="absolute top-2 left-3 section-label pointer-events-none z-10">context window</div>
+              <div id="stream-scroll" class="absolute left-0 right-0 top-8 bottom-0 px-3 sm:px-4 pb-10 overflow-hidden z-10">
                 <div class="mono text-[15px] sm:text-base leading-relaxed text-foreground/90">
                   <span id="stream-body"></span><span class="cursor"></span>
                 </div>
               </div>
-              <div class="gen-flash" id="gen-flash"></div>
-              <div class="absolute bottom-2 left-1/2 -translate-x-1/2 section-label prompt pointer-events-none">click to generate</div>
+              <div class="gen-flash z-10" id="gen-flash"></div>
+              <div class="absolute bottom-2 left-1/2 -translate-x-1/2 section-label prompt pointer-events-none z-10">click to generate</div>
+              <div id="stream-rate" class="absolute bottom-2 right-3 mono text-[10px] text-muted-foreground tnum pointer-events-none z-10"></div>
             </div>
           </section>
 
@@ -185,10 +189,12 @@ export class App {
     this.retrainBtn = this.root.querySelector("#retrain-btn")!;
     this.newsTextEl = this.root.querySelector("#news-text")!;
     this.dexCountEl = this.root.querySelector("#dex-count")!;
+    this.streamRateEl = this.root.querySelector("#stream-rate")!;
     this.upgradesPanel = this.root.querySelector("#up-panel")!;
     this.statsPanel = this.root.querySelector("#stats-panel")!;
     this.achPanel = this.root.querySelector("#ach-panel")!;
 
+    this.firehose = new Firehose(this.streamWrap, this.stream.vocab);
     this.buildGeneratorRows();
     this.wireEvents();
   }
@@ -427,6 +433,19 @@ export class App {
     }
     if (this.ambientAcc > 4) this.ambientAcc = 4;
     if (this.chipAcc > 3) this.chipAcc = 3;
+
+    // Background firehose conveys magnitude the readable stream can't: as Tk/s
+    // climbs past where chips stay legible, density/speed/glow ramp to full.
+    const intensity = tps > 0 ? Math.max(0, Math.min(1, (Math.log10(tps + 1) - 1) / 4)) : 0;
+    this.firehose.update(dt, intensity);
+    this.streamWrap.style.setProperty("--firehose", intensity.toFixed(3));
+    this.streamWrap.classList.toggle("firehose-hot", intensity > 0.02);
+    if (intensity > 0.15) {
+      this.streamRateEl.textContent = `${fmt(this.game.recentTps())} Tk/s`;
+      this.streamRateEl.style.opacity = "1";
+    } else {
+      this.streamRateEl.style.opacity = "0";
+    }
   }
 
   // ---- render --------------------------------------------------------------

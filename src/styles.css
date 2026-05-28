@@ -201,6 +201,26 @@
   }
 }
 
+/* ---- Background token firehose ---- */
+/* A faint canvas of fast-scrolling token fragments behind the readable stream.
+   Density, speed and glow scale with the live Tk/s (driven by --firehose 0..1),
+   conveying throughput that's far beyond what legible chips can show. */
+.firehose-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.firehose-hot {
+  border-color: color-mix(in srgb, var(--color-accent) calc(var(--firehose, 0) * 65%), var(--color-border));
+  box-shadow: inset 0 0 calc(var(--firehose, 0) * 40px)
+    color-mix(in srgb, var(--color-accent) calc(var(--firehose, 0) * 18%), transparent);
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
 /* ---- Golden token ---- */
 .golden {
   position: fixed;
